@@ -24,6 +24,28 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        /* Congratulatory message styles */
+        #congrats {
+            display: none;
+            position: fixed;
+            left: 50%;
+            top: 50%;
+            transform: translate(-50%, -50%);
+            padding: 20px;
+            background-color: #dff0d8;
+            color: #3c763d;
+            border: 1px solid #d6e9c6;
+            border-radius: 5px;
+            z-index: 1000;
+            animation: fadeInOut 3s;
+        }
+        /* Animation for the message */
+        @keyframes fadeInOut {
+            0% { opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { opacity: 0; }
+        }
     </style>
 </head>
 <body>
@@ -33,6 +55,7 @@
             <tr>
                 <th>ID</th>
                 <th>Description</th>
+                <th>Status</th>
                 <th>Completed</th>
             </tr>
         </thead>
@@ -42,9 +65,27 @@
                 <td>{{.ID}}</td>
                 <td>{{.Description}}</td>
                 <td>{{if .Completed}}Yes{{else}}No{{end}}</td>
+                <td><input type="checkbox" onclick="showCongrats(this)" {{if .Completed}}checked{{end}}></td>
             </tr>
             {{end}}
         </tbody>
     </table>
+    <!-- Congratulatory message element -->
+    <div id="congrats">
+        Congratulations on completing the task!
+    </div>
+    <script>
+        // Function to show the congratulatory message
+        function showCongrats(checkbox) {
+            if (checkbox.checked) {
+                var congrats = document.getElementById('congrats');
+                congrats.style.display = 'block';
+                // Hide the message after the animation duration (3 seconds)
+                setTimeout(function() {
+                    congrats.style.display = 'none';
+                }, 3000);
+            }
+        }
+    </script>
 </body>
 </html>
