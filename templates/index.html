@@ -24,6 +24,19 @@
         tr:nth-child(even) {
             background-color: #f9f9f9;
         }
+        /* Progress bar styles */
+        .progress-container {
+            width: 100%;
+            background-color: #eee;
+        }
+        .progress-bar {
+            width: 0%;
+            height: 30px;
+            background-color: #4CAF50;
+            text-align: center;
+            line-height: 30px;
+            color: white;
+        }
         /* Congratulatory message styles */
         #congrats {
             display: none;
@@ -50,6 +63,10 @@
 </head>
 <body>
     <h1>Todo List</h1>
+    <!-- Progress bar container -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar">0%</div>
+    </div>
     <table>
         <thead>
             <tr>
@@ -85,7 +102,22 @@
                     congrats.style.display = 'none';
                 }, 3000);
             }
+            updateProgressBar();
         }
+        
+        // Update progress bar based on completed tasks
+        function updateProgressBar() {
+            var checkboxes = document.querySelectorAll('input[type="checkbox"]');
+            var total = checkboxes.length;
+            var completed = Array.from(checkboxes).filter(checkbox => checkbox.checked).length;
+            var progressBar = document.getElementById('progressBar');
+            var percentage = (completed / total) * 100;
+            progressBar.style.width = percentage + '%';
+            progressBar.textContent = percentage.toFixed(0) + '%';
+        }
+        
+        // Initialize progress bar on page load
+        window.onload = updateProgressBar;
     </script>
 </body>
 </html>
