@@ -4,6 +4,7 @@ import (
 	"html/template"
 	"log"
 	"net/http"
+	"sync"
 )
 
 type Task struct {
@@ -18,8 +19,12 @@ var tasks = []Task{
 	{ID: 3, Description: "Write Go app", Completed: false},
 }
 
+var idCounter = 3
+var mu sync.Mutex
+
 func main() {
 	http.HandleFunc("/", indexHandler)
+	http.HandleFunc("/add", addTaskHandler)
 	log.Println("Server starting on port :8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
@@ -35,4 +40,19 @@ func indexHandler(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
+}
+
+func addTaskHandler(w http.ResponseWriter, r *http.Request) {
+	if r.Method != http.MethodPost {
+		http.Error(w, "Invalid method", http.StatusMethodNotAllowed)
+		return
+	}
+
+	description := r.FormValue("description")
+	mu.Lock()
+	idCounter++
+	tasks = append(tasks, Task{ID: idCounter, Description: description, Completed: false})
+	mu.Unlock()
+
+	http.Redirect(w, r, "/", http.StatusSeeOther)
 }

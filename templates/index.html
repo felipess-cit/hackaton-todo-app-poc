@@ -63,6 +63,10 @@
 </head>
 <body>
     <h1>Todo List</h1>
+    <form action="/add" method="post">
+        <input type="text" name="description" required>
+        <button type="submit">Add Task</button>
+    </form>
     <!-- Progress bar container -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar">0%</div>
