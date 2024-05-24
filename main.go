@@ -25,7 +25,7 @@ var mu sync.Mutex
 func main() {
 	http.HandleFunc("/", indexHandler)
 	http.HandleFunc("/add", addTaskHandler)
-    http.FileServer(http.Dir("./images"))
+    http.Handle("/assets", http.FileServer(http.Dir("./images")))
 	log.Println("Server starting on port :8080...")
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
