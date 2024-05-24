@@ -59,6 +59,18 @@
             90% { opacity: 1; }
             100% { opacity: 0; }
         }
+        @keyframes fadeInOutImage {
+        0% { opacity: 0; }
+        10% { opacity: 1; }
+        90% { opacity: 1; }
+        100% { opacity: 0; }
+    }
+
+    /* Styles for when the image is shown */
+    #completedImage.show {
+        display: block;
+        animation: fadeInOutImage 3s;
+    }
     </style>
 </head>
 <body>
@@ -67,6 +79,9 @@
         <input type="text" name="description" required>
         <button type="submit">Add Task</button>
     </form>
+    <div id="completedImage" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1001;">
+        <img src="https://cdn-icons-png.flaticon.com/512/4017/4017699.png" alt="Completed!">
+    </div>
     <!-- Progress bar container -->
     <div class="progress-container">
         <div class="progress-bar" id="progressBar">0%</div>
@@ -118,6 +133,15 @@
             var percentage = (completed / total) * 100;
             progressBar.style.width = percentage + '%';
             progressBar.textContent = percentage.toFixed(0) + '%';
+
+            var completedImage = document.getElementById('completedImage');
+            if (percentage === 100) {
+                completedImage.classList.add('show');
+                // Hide the image after the animation duration (3 seconds)
+                setTimeout(function() {
+                    completedImage.classList.remove('show');
+                }, 3000);
+            }
         }
         
         // Initialize progress bar on page load
