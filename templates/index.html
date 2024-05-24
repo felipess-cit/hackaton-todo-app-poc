@@ -81,6 +81,11 @@
     </form>
     <div id="completedImage" style="display: none; position: fixed; left: 50%; top: 50%; transform: translate(-50%, -50%); z-index: 1001;">
         <img src="https://cdn-icons-png.flaticon.com/512/4017/4017699.png" alt="Completed!">
+        <!-- <img src="/images/completed.jpg" alt="Completed!"> -->
+        <a href="https://www.facebook.com/sharer/sharer.php?u=" onclick="window.open('https://www.facebook.com/sharer/sharer.php?u='+encodeURIComponent(location.href),'facebook-share-dialog','width=800,height=600'); return false;" style="display: flex; flex-direction: column; align-items: center; text-decoration: none; color: inherit;">
+            <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTe3pWgG0XkmgM5BYnTl9kCx8T3nR5I1HyKQUKl0W1MRw&s" alt="Share on Facebook" style="cursor: pointer; width: 100px; height: 100px;"/>
+            <span>Share on Facebook</span>
+        </a>
     </div>
     <!-- Progress bar container -->
     <div class="progress-container">
@@ -135,11 +140,12 @@
             progressBar.textContent = percentage.toFixed(0) + '%';
 
             var completedImage = document.getElementById('completedImage');
+            console.log(completedImage);
             if (percentage === 100) {
-                completedImage.classList.add('show');
+                completedImage.style.display = '';
                 // Hide the image after the animation duration (3 seconds)
                 setTimeout(function() {
-                    completedImage.classList.remove('show');
+                    completedImage.style.display = 'none';
                 }, 3000);
             }
         }
